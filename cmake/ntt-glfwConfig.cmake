@@ -13,6 +13,16 @@ if (NOT TARGET glfw)
     )
 
     FetchContent_MakeAvailable(glfw)
+
+    if (UNIX)
+        target_compile_options(
+            glfw
+            PRIVATE 
+            -Wno-unused-parameter
+            -Wno-missing-field-initializers
+            -Wno-sign-compare
+        )
+    endif()
 endif()
 
 if (NOT TARGET GLAD)
@@ -23,13 +33,21 @@ if (NOT TARGET GLAD)
 
     FetchContent_MakeAvailable(GLAD)
 
-    target_compile_options(
-        glad
-        PRIVATE 
-        /wd4668
-        /wd4191
-        /wd5045
-    )
+    if (MSVC)
+        target_compile_options(
+            glad
+            PRIVATE 
+            /wd4668
+            /wd4191
+            /wd5045
+        )
+    else()
+        target_compile_options(
+            glad
+            PRIVATE 
+            -Wno-unused-parameter
+        )
+    endif()
 endif()
 
 if (NOT TARGET OpenGL)

@@ -1,6 +1,10 @@
 #pragma once
 #include <cstdint>
 
+#if defined(PLATFORM_LINUX)
+#include <unistd.h>
+#endif
+
 typedef int8_t	 i8;
 typedef uint8_t	 u8;
 typedef int16_t	 i16;
@@ -17,7 +21,21 @@ typedef intptr_t isize;
 #define NULLPTR			nullptr
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
 
+#ifdef PLATFORM_WINDOWS
+#include <intrin.h>
+#define debugbreak() __debugbreak()
+#elif defined(PLATFORM_LINUX)
+#include <csignal>
+#define debugbreak() raise(SIGTRAP)
+#endif
+
 #define ASSERT(cond)                                                                                                   \
-	if (!(cond)) __debugbreak();
+	do                                                                                                                 \
+	{                                                                                                                  \
+		if (!(cond))                                                                                                   \
+		{                                                                                                              \
+			debugbreak();                                                                                              \
+		}                                                                                                              \
+	} while (0)
 
 #define UNUSED(var) (void)(var)

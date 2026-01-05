@@ -15,10 +15,14 @@ int main(void)
 
 	glfwMakeContextCurrent(window);
 
+#if defined(PLATFORM_WINDOWS)
 #pragma warning(push)
 #pragma warning(disable : 4191)
+#endif
 	ASSERT(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) == GLFW_TRUE);
+#if defined(PLATFORM_WINDOWS)
 #pragma warning(pop)
+#endif
 	printf("OpenGL Version: %s\n", glGetString(GL_VERSION));
 
 	while (!glfwWindowShouldClose(window))

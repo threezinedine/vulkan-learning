@@ -13,7 +13,15 @@ file(
     "src/*.h"
 )
 
-add_compile_options(-Wall /WX /wd4820)
+set(DEFINITIONS "")
+
+if(MSVC)
+    add_compile_options(-Wall /WX /wd4820)
+    list(APPEND DEFINITIONS "PLATFORM_WINDOWS")
+else()
+    add_compile_options(-Wall -Wextra -Werror)
+    list(APPEND DEFINITIONS "PLATFORM_LINUX")
+endif()
 
 add_executable(
     ${PROJECT_NAME} 
@@ -28,4 +36,10 @@ target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE
     ntt-glfw
+)
+
+target_compile_definitions(
+    ${PROJECT_NAME}
+    PRIVATE
+    ${DEFINITIONS}
 )
