@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <cstdio>
 
 #if defined(PLATFORM_LINUX)
 #include <unistd.h>
@@ -39,3 +40,13 @@ typedef intptr_t isize;
 	} while (0)
 
 #define UNUSED(var) (void)(var)
+
+#define VK_ASSERT(exp)                                                                                                 \
+	do                                                                                                                 \
+	{                                                                                                                  \
+		VkResult result = exp;                                                                                         \
+		if (result != VK_SUCCESS)                                                                                      \
+		{                                                                                                              \
+			printf("Error at %s %s:%d", #exp, __FILE__, __LINE__);                                                     \
+		}                                                                                                              \
+	} while (0)
