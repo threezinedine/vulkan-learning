@@ -15,9 +15,11 @@ private:
 
 private:
 	static void createInstance();
+	static void getPhysicalDevices();
 
 private:
-	static VkInstance s_instance;
+	static VkInstance				s_instance;
+	static vector<VkPhysicalDevice> s_physicalDevices;
 };
 
 } // namespace ntt

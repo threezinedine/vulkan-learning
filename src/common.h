@@ -1,6 +1,9 @@
 #pragma once
 #include <cstdint>
 #include <cstdio>
+#include <vector>
+
+using namespace std;
 
 #if defined(PLATFORM_LINUX)
 #include <unistd.h>
@@ -38,6 +41,8 @@ typedef intptr_t isize;
 			debugbreak();                                                                                              \
 		}                                                                                                              \
 	} while (0)
+
+#define UNREACHABLE() ASSERT(false)
 
 #define UNUSED(var) (void)(var)
 
